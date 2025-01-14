@@ -1,0 +1,17 @@
+#GuildPlugin by X_32xm
+#for only Dxzzz.net
+#QQ:2644489337
+
+ChatSettings:
+  #聊天事件触发优先级
+  #可选参数: MONITOR/HIGHEST/HIGH/NORMAL/LOW/LOWEST 从LOW到MONITOR，监听到的消息越来越晚！
+  Priority: NORMAL
+
+  #是否判断event.isCancelled()
+  DetectCancelOrNot: true
+
+  #聊天前缀(支持PlaceholderAPI)
+  TalkPrefix: "%rank_rank%§7%tag_all% §8> §f "
+
+
+
