@@ -1,28 +1,31 @@
 package com.wyuu;
 
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
-import me.lucko.luckperms.LuckPerms;
-import me.lucko.luckperms.api.LuckPermsApi;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.Node;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventException;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.EventExecutor;
+import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
 
 public final class Chat extends JavaPlugin {
     public static PlaceholderAPIPlugin placeholderAPI;
-    public final Logger logger= getLogger();
+    public  final Logger logger= getLogger();
     private static ChatListener ChatListener;
     public static String talkPriority;
     public static String talkPrefix;
     public static Boolean talkDetectCancelOrNot;
     public static boolean loadConfigSuccess ;
-    public static LuckPermsApi luckPermsApi;
     @Override
     public void onEnable() {
         logger.info("===========[Chat正在加载中]===========");
@@ -40,12 +43,6 @@ public final class Chat extends JavaPlugin {
         else {
             logger.info("已查找到PlaceholderAPI");
         }
-        if(!this.setupLuckPermsAPI()){
-            logger.severe(ChatColor.RED+"未找到LuckPermsAPI前置插件,部分功能将失效。");
-        }
-        else {
-            logger.info("已查找到LuckPermsAPI");
-        }
 
         if(!loadConfigSuccess){
             getServer().getPluginManager().disablePlugin(this);
@@ -61,7 +58,8 @@ public final class Chat extends JavaPlugin {
                 }
             }
         },this);
-
+        //初始化功能函数映射
+        ChatColorProcessor.initProcMap();
 
         logger.info("==========[Chat已加载完毕]=========");
     }
@@ -93,13 +91,5 @@ public final class Chat extends JavaPlugin {
         }
         placeholderAPI = (PlaceholderAPIPlugin) getServer().getPluginManager().getPlugin("PlaceholderAPI");
         return placeholderAPI != null;
-    }
-    private boolean setupLuckPermsAPI() {
-        // 检查 LuckPerms 插件是否已加载
-        if (getServer().getPluginManager().getPlugin("LuckPerms") == null) {
-            logger.severe(ChatColor.RED + "未找到LuckPerms插件，部分功能将无法使用。");
-            return false;
-        }
-        return true;
     }
 }

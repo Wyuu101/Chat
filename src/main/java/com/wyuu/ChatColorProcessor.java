@@ -1,13 +1,17 @@
 package com.wyuu;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class ChatColorProcessor {
+
     private static final Random random = new Random();
-    public static Map<String, Consumer<String>> procMap;
+    private static Map<String, Function<String,String>> procMap;
     // 彩虹颜色数组（使用§符号）
     private static final String[] RAINBOW_COLORS = {
             "§c", // 红色
@@ -17,7 +21,7 @@ public class ChatColorProcessor {
             "§b", // 天蓝色
             "§d"  // 粉色
     };
-    public void initProcMap(){
+    public static void initProcMap(){
         procMap = new HashMap<>();
         procMap.put("liaotianziti.using.caihong",ChatColorProcessor::toCaiHong);
         procMap.put("liaotianziti.using.fenlan",ChatColorProcessor::toPinkBlue);
@@ -35,6 +39,9 @@ public class ChatColorProcessor {
         procMap.put("liaotianziti.using.sisi",ChatColorProcessor::toSiSi);
     }
 
+    public static Map<String, Function<String,String>> getProcMap(){
+        return procMap;
+    }
 
     /**
      * 将消息转换为彩虹渐变色
@@ -67,12 +74,12 @@ public class ChatColorProcessor {
     }
 
     /**
-     * 将消息转换为深绿色并在末尾添加"嘶嘶~"
+     * 将消息转换为深绿色并在末尾添加倾斜"嘶嘶~"
      * @param message 原始消息
      * @return 处理后的橙色消息
      */
     public static String toSiSi(String message) {
-        return "§2§l" + message + " 嘶嘶~";
+        return "§2§l§o" + message + " 嘶嘶~";
     }
 
     /**
