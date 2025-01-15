@@ -13,5 +13,14 @@ ChatSettings:
   #聊天前缀(支持PlaceholderAPI)
   TalkPrefix: "%rank_rank%§7%tag_all% §8> §f "
 
+  #只有本项为true，过期权限检查才会生效。注意：后端服务器请保证有且仅有一个服务器将此项设置为true
+  AsLobby: false
 
+#数据库设置(仅支持MySQL)
+DataBase:
+  MySQL:
+    Host: localhost
+    Username: root
+    Password:
+    Port: 3306
 

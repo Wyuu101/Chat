@@ -1,10 +1,13 @@
 package com.wyuu;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 public class CommandExc implements CommandExecutor {
     private final JavaPlugin plugin;
@@ -33,6 +36,40 @@ public class CommandExc implements CommandExecutor {
                     sender.sendMessage("切换称号成功");
                     return true;
                 }
+            case "temp":
+                if(args.length < 2) {
+                    sender.sendMessage("§c用法错误");
+                    return false;
+                }
+                Player p  = plugin.getServer().getPlayer(args[1]);
+                if (p != null) {
+                    Chat.databaseManager.addTempPermission(p.getUniqueId().toString(), args[1]);
+                    return true;
+                }
+            case "test":
+                List<String> tempUsers =Chat.databaseManager.getTempUsers();
+                //plugin.getLogger().info(tempUsers.toString());
+                for(String tempUser : tempUsers) {
+                    OfflinePlayer player2= plugin.getServer().getOfflinePlayer(tempUser);
+                    //plugin.getLogger().info("玩家名:"+player2.getName());
+
+                    PermissionManager permissionManager = new PermissionManager(player2,plugin);
+                    List<String> havingPermissions = permissionManager.getUsingPermissions("liaotianziti.have");
+                    List<String> usingPermissions = permissionManager.getUsingPermissions("liaotianziti.using");
+                    if(havingPermissions.size() == usingPermissions.size()) {
+                        continue;
+                    }
+                    for(String usingPermission : usingPermissions) {
+                        if(!havingPermissions.contains(usingPermission)) {
+                            permissionManager.removePermission(player2, usingPermission);
+                            havingPermissions.remove(usingPermission);
+                        }
+                    }
+                    if(havingPermissions.size() == usingPermissions.size()){
+                        Chat.databaseManager.removeTempPermission(tempUser);
+                    }
+                }
+                plugin.getLogger().info("已完成聊天字体过期权限检查");
             default:
                 return false;
         }

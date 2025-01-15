@@ -1,31 +1,32 @@
 package com.wyuu;
 
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
-import net.luckperms.api.model.user.User;
-import net.luckperms.api.node.Node;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventException;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.EventExecutor;
-import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
 
 public final class Chat extends JavaPlugin {
+    public static DatabaseManager databaseManager;
     public static PlaceholderAPIPlugin placeholderAPI;
     public  final Logger logger= getLogger();
     private static ChatListener ChatListener;
     public static String talkPriority;
     public static String talkPrefix;
     public static Boolean talkDetectCancelOrNot;
+    public static ScheduleTask scheduleTask;
+    public static boolean asLobby;
     public static boolean loadConfigSuccess ;
+    private String username;
+    private String password;
+    private int port;
+    private String host;
     @Override
     public void onEnable() {
         logger.info("===========[Chat正在加载中]===========");
@@ -36,6 +37,12 @@ public final class Chat extends JavaPlugin {
         this.reloadConfig();
         this.loadConfig();
 
+        if(!loadConfigSuccess){
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+
 
         if(!this.setupPlaceholderAPI()){
             logger.severe(ChatColor.RED+"未找到PlaceholderAPI前置插件,部分功能将失效。");
@@ -44,10 +51,21 @@ public final class Chat extends JavaPlugin {
             logger.info("已查找到PlaceholderAPI");
         }
 
-        if(!loadConfigSuccess){
+        databaseManager = new DatabaseManager(username, password, host, port);
+
+        if (databaseManager.GetUserDb() == null) {
+            logger.severe("创建数据库连接失败，请检查配置，插件即将自动卸载.");
+            loadConfigSuccess = false;
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+        databaseManager.createForm_TempPermission();
+        scheduleTask = new ScheduleTask(this,databaseManager);
+        if(asLobby){
+            scheduleTask.permissionCheckTask();
+            logger.info("过期权限检查任务已启动，周期为6h");
+        }
+
 
         ChatListener= new ChatListener(this);
         Bukkit.getPluginManager().registerEvent(AsyncPlayerChatEvent.class,ChatListener, UniversalModule.GetEventPriority(talkPriority),  new EventExecutor() {
@@ -71,7 +89,7 @@ public final class Chat extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        databaseManager.closeDataBase();
     }
 
     public void loadConfig() {
@@ -85,7 +103,11 @@ public final class Chat extends JavaPlugin {
             return;
         }
         talkPrefix = this.getConfig().getString("ChatSettings.TalkPrefix");
-
+        asLobby = this.getConfig().getBoolean("ChatSettings.AsLobby",false);
+        username = this.getConfig().getString("DataBase.MySQL.Username", "root");
+        password = this.getConfig().getString("DataBase.MySQL.Password");
+        host = this.getConfig().getString("DataBase.MySQL.Host", "localhost");
+        port = this.getConfig().getInt("DataBase.MySQL.Port", 3306);
         loadConfigSuccess=true;
     }
 
@@ -98,3 +120,5 @@ public final class Chat extends JavaPlugin {
         return placeholderAPI != null;
     }
 }
+
+

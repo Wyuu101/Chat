@@ -6,6 +6,7 @@ import net.luckperms.api.cacheddata.CachedData;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
 import net.luckperms.api.node.types.PermissionNode;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,19 +17,17 @@ import java.util.logging.Logger;
 public class PermissionManager {
     public static LuckPerms luckPermsApi= LuckPermsProvider.get();
     private User user;
-    private Player player;
+    private OfflinePlayer player;
     private Logger logger;
 
-    public PermissionManager(Player player, JavaPlugin javaPlugin) {
+    public PermissionManager(OfflinePlayer player, JavaPlugin javaPlugin) {
         this.player = player;
         this.logger = javaPlugin.getLogger();
-        this.user = luckPermsApi.getUserManager().getUser(player.getUniqueId());
+        this.user = luckPermsApi.getUserManager().getUser(player.getName());
     }
 
     private List<String> getAllPermissions() {
         List<String> permissionsList = new ArrayList<>();
-        // 获取所有权限并添加到列表
-        Collection<Node> collections= user.getNodes();
         // 检查用户对象是否为空
         if (user != null) {
             // 获取权限映射（权限名称 -> 是否启用）
@@ -60,7 +59,7 @@ public class PermissionManager {
         return filteredPermissions;
     }
 
-    public  void removePermission(Player player, String permission) {
+    public  void removePermission(OfflinePlayer player, String permission) {
         // 获取 LuckPerms API 实例
         LuckPerms api = LuckPermsProvider.get();
 
@@ -75,6 +74,9 @@ public class PermissionManager {
             api.getUserManager().saveUser(user);
         }
     }
+
+
+
 
     public  void addPermission(Player player, String permission) {
         // 获取 LuckPerms API 实例
