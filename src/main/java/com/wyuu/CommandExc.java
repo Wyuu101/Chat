@@ -24,7 +24,7 @@ public class CommandExc implements CommandExecutor {
                 return true;
             case "enable":
                 if(args.length < 3) {
-                    sender.sendMessage("&c用法错误");
+                    sender.sendMessage("§c用法错误");
                     return false;
                 }
                 Player player = plugin.getServer().getPlayer(args[1]);

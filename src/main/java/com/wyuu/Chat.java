@@ -58,6 +58,8 @@ public final class Chat extends JavaPlugin {
                 }
             }
         },this);
+        ChatPlaceholderExpansion chatPlaceholderExpansion = ChatPlaceholderExpansion.getInstance();
+        chatPlaceholderExpansion.register();
         //初始化功能函数映射
         ChatColorProcessor.initProcMap();
         //初始化命令执行类中的字体名称列表
