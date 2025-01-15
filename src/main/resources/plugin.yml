@@ -5,3 +5,15 @@ api-version: '1.13'
 depend: [PlaceholderAPI, LuckPerms]
 authors: [wyuu]
 description: A chat formatting plugin
+commands:
+  chatfont:
+    description: "聊天系统-管理员用"
+    permission: Chat.Operator
+    permission-message: "§b§l聊天系统>>§c你没有使用此命令的权限！"
+    usage: "聊天字体系统:\n
+            /chatfont enable <player> <fontID>   为玩家启用某个聊天字体\n
+            /chatfont list   查看可用字体id\n"
+
+permissions:
+  Chat.Operator:
+    default: op

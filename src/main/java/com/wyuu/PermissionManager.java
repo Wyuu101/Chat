@@ -2,8 +2,10 @@ package com.wyuu;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.cacheddata.CachedData;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
+import net.luckperms.api.node.types.PermissionNode;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,7 +44,6 @@ public class PermissionManager {
             // 如果用户对象为空，输出日志提示
             logger.warning("无法找到玩家 " + player.getName() + " 的权限信息！");
         }
-        logger.info(permissionsList.toString());
         return permissionsList;
     }
     //获取正在使用聊天字体的权限节点: liaotianziti.using.xxx
@@ -58,6 +59,45 @@ public class PermissionManager {
         }
         return filteredPermissions;
     }
+
+    public  void removePermission(Player player, String permission) {
+        // 获取 LuckPerms API 实例
+        LuckPerms api = LuckPermsProvider.get();
+
+        // 获取玩家的 LuckPerms 用户对象
+        User user = api.getUserManager().getUser(player.getUniqueId());
+
+        if (user != null) {
+            // 开始编辑用户数据
+            user.data().remove(Node.builder(permission).build());
+
+            // 保存更改
+            api.getUserManager().saveUser(user);
+        }
+    }
+
+    public  void addPermission(Player player, String permission) {
+        // 获取 LuckPerms API 实例
+        LuckPerms api = LuckPermsProvider.get();
+
+        // 获取玩家的 LuckPerms 用户对象
+        User user = api.getUserManager().getUser(player.getUniqueId());
+
+        if (user != null) {
+            // 创建权限节点并设置为true（启用）
+            Node node = Node.builder(permission)
+                    .value(true)  // 设置权限为启用状态
+                    .build();
+
+            // 添加权限节点
+            user.data().add(node);
+
+            // 保存更改
+            api.getUserManager().saveUser(user);
+        }
+    }
+
+
 
 }
 

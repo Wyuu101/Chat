@@ -60,6 +60,9 @@ public final class Chat extends JavaPlugin {
         },this);
         //初始化功能函数映射
         ChatColorProcessor.initProcMap();
+        //初始化命令执行类中的字体名称列表
+        CommandFunc.initFontsList();
+        Bukkit.getPluginCommand("chatfont").setExecutor(new CommandExc(this));
 
         logger.info("==========[Chat已加载完毕]=========");
     }
