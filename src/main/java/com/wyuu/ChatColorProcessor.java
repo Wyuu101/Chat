@@ -19,7 +19,20 @@ public class ChatColorProcessor {
     };
     public void initProcMap(){
         procMap = new HashMap<>();
-        procMap.put("liaotianziti.using.caihong",this::toCaiHong);
+        procMap.put("liaotianziti.using.caihong",ChatColorProcessor::toCaiHong);
+        procMap.put("liaotianziti.using.fenlan",ChatColorProcessor::toPinkBlue);
+        procMap.put("liaotianziti.using.gangqin",ChatColorProcessor::toGangQin);
+        procMap.put("liaotianziti.using.shengdan",ChatColorProcessor::toShengDan);
+        procMap.put("liaotianziti.using.elongpaoxiao",ChatColorProcessor::toELongPaoXiao);
+        procMap.put("liaotianziti.using.xiaotuji",ChatColorProcessor::toRabbit);
+        procMap.put("liaotianziti.using.miaomiao",ChatColorProcessor::toMiaoMiao);
+        procMap.put("liaotianziti.using.huohua",ChatColorProcessor::toHuoHua);
+        procMap.put("liaotianziti.using.kuangbao",ChatColorProcessor::toKuangBao);
+        procMap.put("liaotianziti.using.didao",ChatColorProcessor::toDiDiao);
+        procMap.put("liaotianziti.using.xuehua",ChatColorProcessor::toSnow);
+        procMap.put("liaotianziti.using.zhexue",ChatColorProcessor::toZheXue);
+        procMap.put("liaotianziti.using.aoaojiao",ChatColorProcessor::toAaoAaoJiao);
+        procMap.put("liaotianziti.using.sisi",ChatColorProcessor::toSiSi);
     }
 
 
@@ -28,7 +41,7 @@ public class ChatColorProcessor {
      * @param message 原始消息
      * @return 处理后的彩虹渐变色消息
      */
-    public  String toCaiHong(String message) {
+    public static String toCaiHong(String message) {
         StringBuilder coloredMessage = new StringBuilder();
         char[] chars = message.toCharArray();
         
@@ -49,8 +62,17 @@ public class ChatColorProcessor {
      * @param message 原始消息
      * @return 处理后的橙色消息
      */
-    public static String toOrangeWithSuffix(String message) {
+    public static String toAaoAaoJiao(String message) {
         return "§6§l" + message + " 嗷~";
+    }
+
+    /**
+     * 将消息转换为深绿色并在末尾添加"嘶嘶~"
+     * @param message 原始消息
+     * @return 处理后的橙色消息
+     */
+    public static String toSiSi(String message) {
+        return "§2§l" + message + " 嘶嘶~";
     }
 
     /**
