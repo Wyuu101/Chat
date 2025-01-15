@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -27,23 +28,27 @@ public class ScheduleTask {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    List<String> tempUsers =databaseManager.getTempUsers();
+                    List<String> tempUsers =Chat.databaseManager.getTempUsers();
+                    //plugin.getLogger().info(tempUsers.toString());
                     for(String tempUser : tempUsers) {
-                        OfflinePlayer player= plugin.getServer().getOfflinePlayer(tempUser);
-                        PermissionManager permissionManager = new PermissionManager(player,plugin);
+                        OfflinePlayer player2= plugin.getServer().getOfflinePlayer(tempUser);
+                        //plugin.getLogger().info("玩家名:"+player2.getName());
+
+                        PermissionManager permissionManager = new PermissionManager(player2,plugin);
                         List<String> havingPermissions = permissionManager.getUsingPermissions("liaotianziti.have");
                         List<String> usingPermissions = permissionManager.getUsingPermissions("liaotianziti.using");
                         if(havingPermissions.size() == usingPermissions.size()) {
                             continue;
                         }
-                        for(String usingPermission : usingPermissions) {
+                        List<String> usingPermissionsCopy = new ArrayList<>(usingPermissions);
+                        for(String usingPermission : usingPermissionsCopy) {
                             if(!havingPermissions.contains(usingPermission)) {
-                                permissionManager.removePermission(player, usingPermission);
-                                havingPermissions.remove(usingPermission);
+                                permissionManager.removePermission(player2, usingPermission);
+                                usingPermissions.remove(usingPermission);
                             }
                         }
                         if(havingPermissions.size() == usingPermissions.size()){
-                            databaseManager.removeTempPermission(tempUser);
+                            Chat.databaseManager.removeTempPermission(tempUser);
                         }
                     }
                     plugin.getLogger().info("已完成聊天字体过期权限检查");

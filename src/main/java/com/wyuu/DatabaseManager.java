@@ -23,8 +23,7 @@ public class DatabaseManager {
     public void createForm_TempPermission() {
         try {
             userDb.executeUpdate("CREATE TABLE IF NOT EXISTS TempPermission (" +
-                    "id INT PRIMARY KEY AUTO_INCREMENT," +
-                    "uuid VARCHAR(255) NOT NULL," +
+                    "uuid VARCHAR(255) PRIMARY KEY NOT NULL," +
                     "username VARCHAR(255) NOT NULL" +
                     ")");
         }catch (SQLException e){

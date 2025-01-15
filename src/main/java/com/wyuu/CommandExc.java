@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommandExc implements CommandExecutor {
@@ -56,20 +57,26 @@ public class CommandExc implements CommandExecutor {
                     PermissionManager permissionManager = new PermissionManager(player2,plugin);
                     List<String> havingPermissions = permissionManager.getUsingPermissions("liaotianziti.have");
                     List<String> usingPermissions = permissionManager.getUsingPermissions("liaotianziti.using");
+//                    plugin.getLogger().info("Qhave"+havingPermissions.toString());
+//                    plugin.getLogger().info("Quse"+usingPermissions.toString());
                     if(havingPermissions.size() == usingPermissions.size()) {
                         continue;
                     }
-                    for(String usingPermission : usingPermissions) {
+                    List<String> usingPermissionsCopy = new ArrayList<>(usingPermissions);
+                    for(String usingPermission : usingPermissionsCopy) {
                         if(!havingPermissions.contains(usingPermission)) {
                             permissionManager.removePermission(player2, usingPermission);
-                            havingPermissions.remove(usingPermission);
+                            usingPermissions.remove(usingPermission);
                         }
                     }
+//                    plugin.getLogger().info("Hhave"+havingPermissions.toString());
+//                    plugin.getLogger().info("Huse"+usingPermissions.toString());
                     if(havingPermissions.size() == usingPermissions.size()){
                         Chat.databaseManager.removeTempPermission(tempUser);
                     }
                 }
                 plugin.getLogger().info("已完成聊天字体过期权限检查");
+                return true;
             default:
                 return false;
         }
