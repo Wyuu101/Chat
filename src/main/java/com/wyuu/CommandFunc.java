@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CommandFunc {
 
-    private static List<String> fonts=new ArrayList<>();
+    public static List<String> fonts=new ArrayList<>();
     public static void initFontsList(){
         fonts.add("caihong");
         fonts.add("fenlan");
@@ -20,11 +20,13 @@ public class CommandFunc {
         fonts.add("miaomiao");
         fonts.add("huohua");
         fonts.add("kuangbao");
-        fonts.add("didao");
+        fonts.add("didiao");
         fonts.add("xuehua");
         fonts.add("zhexue");
         fonts.add("aoaojiao");
         fonts.add("sisi");
+        fonts.add("yuanliang");
+        fonts.add("tiankong");
     }
 
 

@@ -19,7 +19,8 @@ public class ChatColorProcessor {
             "§e", // 黄色
             "§a", // 绿色
             "§b", // 天蓝色
-            "§d"  // 粉色
+            "§3", // 青色
+            "§5"  //深粉
     };
     public static void initProcMap(){
         procMap = new HashMap<>();
@@ -37,6 +38,8 @@ public class ChatColorProcessor {
         procMap.put("liaotianziti.using.zhexue",ChatColorProcessor::toZheXue);
         procMap.put("liaotianziti.using.aoaojiao",ChatColorProcessor::toAaoAaoJiao);
         procMap.put("liaotianziti.using.sisi",ChatColorProcessor::toSiSi);
+        procMap.put("liaotianziti.using.yuanliang",ChatColorProcessor::toYuanLiang);
+        procMap.put("liaotianziti.using.tiankong",ChatColorProcessor::toTianKong);
     }
 
     public static Map<String, Function<String,String>> getProcMap(){
@@ -70,7 +73,7 @@ public class ChatColorProcessor {
      * @return 处理后的橙色消息
      */
     public static String toAaoAaoJiao(String message) {
-        return "§6§l" + message + " 嗷~";
+        return "§6§l" + message + " §6§l§o嗷~~";
     }
 
     /**
@@ -79,7 +82,7 @@ public class ChatColorProcessor {
      * @return 处理后的橙色消息
      */
     public static String toSiSi(String message) {
-        return "§2§l§o" + message + " 嘶嘶~";
+        return "§2§l" + message + " §2§l§o嘶嘶~";
     }
 
     /**
@@ -111,7 +114,7 @@ public class ChatColorProcessor {
     public static String toGangQin(String message) {
         StringBuilder coloredMessage = new StringBuilder();
         char[] chars = message.toCharArray();
-        String[] colors = {"§f", "§7", "§0"}; // 白、灰、黑
+        String[] colors = {"§f", "§7", "§8"}; // 白、灰、黑
         
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] != ' ') {
@@ -153,7 +156,7 @@ public class ChatColorProcessor {
      * @return 处理后的红色消息加表情
      */
     public static String toELongPaoXiao(String message) {
-        return "§c" + message + "§c§o 嗷呜~┗|｀O′|┛";
+        return "§4" + message + "§4§o 嗷呜~┗|｀O′|┛";
     }
 
     /**
@@ -162,7 +165,7 @@ public class ChatColorProcessor {
      * @return 处理后的白色消息加表情
      */
     public static String toRabbit(String message) {
-        return "§f" + message + "₍  ̥ ̞ ̥ᐢ₎ ";
+        return "§f" + message + " ᕱ⑅ᕱ";
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.wyuu;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -49,13 +48,23 @@ public class ChatPlaceholderExpansion extends PlaceholderExpansion {
                 PermissionManager permissionManager = new PermissionManager(player, plugin);
                 List<String> havingPermission = permissionManager.getUsingPermissions("liaotianziti.have");
                 List<String> usingPermissions = permissionManager.getUsingPermissions("liaotianziti.using");
-                if (usingPermissions.contains("liaotianziti.using." + tag)) {
-                    return "64";
+                if(tag.equalsIgnoreCase("empty")) {
+                    if(usingPermissions.isEmpty()) {
+                        return "64";
+                    }
+                    else {
+                        return "2";
+                    }
                 }
-                if (havingPermission.contains("liaotianziti.have." + tag)) {
-                    return "2";
+                else {
+                    if (usingPermissions.contains("liaotianziti.using." + tag)) {
+                        return "64";
+                    }
+                    if (havingPermission.contains("liaotianziti.have." + tag)) {
+                        return "2";
+                    }
+                    return "1";
                 }
-                return "1";
             }
         } else if (identifier.startsWith("state")) {
             String[] parts = identifier.split("_");
@@ -66,15 +75,53 @@ public class ChatPlaceholderExpansion extends PlaceholderExpansion {
                 PermissionManager permissionManager = new PermissionManager(player, plugin);
                 List<String> havingPermission = permissionManager.getUsingPermissions("liaotianziti.have");
                 List<String> usingPermissions = permissionManager.getUsingPermissions("liaotianziti.using");
-                if (usingPermissions.contains("liaotianziti.using." + tag)) {
-                    return "§a§l✔已选择";
+                if(tag.equalsIgnoreCase("empty")) {
+                    if(usingPermissions.isEmpty()) {
+                        return "§a§l✔已选择";
+                    }
+                    else {
+                        return "§a§l✔点击选择";
+                    }
                 }
-                if (havingPermission.contains("liaotianziti.have." + tag)) {
-                    return "§a§l✔点击选择";
+                else {
+                    if (usingPermissions.contains("liaotianziti.using." + tag)) {
+                        return "§a§l✔已选择";
+                    }
+                    if (havingPermission.contains("liaotianziti.have." + tag)) {
+                        return "§a§l✔点击选择";
+                    }
+                    return "错误的ID";
                 }
-                return "错误的ID";
             }
-        } else {
+        } else if(identifier.startsWith("enchant")) {
+            String[] parts = identifier.split("_");
+            if (parts.length < 2) {
+                return "0";
+            } else {
+                String tag = parts[1];
+                PermissionManager permissionManager = new PermissionManager(player, plugin);
+                List<String> havingPermission = permissionManager.getUsingPermissions("liaotianziti.have");
+                List<String> usingPermissions = permissionManager.getUsingPermissions("liaotianziti.using");
+                if(tag.equalsIgnoreCase("empty")) {
+                    if(usingPermissions.isEmpty()) {
+                        return "1";
+                    }
+                    else {
+                        return "0";
+                    }
+                }
+                else {
+                    if (usingPermissions.contains("liaotianziti.using." + tag)) {
+                        return "1";
+                    }
+                    if (havingPermission.contains("liaotianziti.have." + tag)) {
+                        return "0";
+                    }
+                    return "0";
+                }
+            }
+        }
+        else {
             return null;
         }
 

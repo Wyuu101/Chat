@@ -34,9 +34,23 @@ public class CommandExc implements CommandExecutor {
                 Player player = plugin.getServer().getPlayer(args[1]);
                 if (player != null) {
                     CommandFunc.changeUsingFont(player, args[2],plugin);
-                    sender.sendMessage("切换称号成功");
+//                    sender.sendMessage("切换称号成功");
                     return true;
                 }
+            case "clear":
+                if(args.length < 2) {
+                    sender.sendMessage("§c用法错误");
+                    return false;
+                }
+                Player p1  = plugin.getServer().getPlayer(args[1]);
+                if (p1 != null) {
+                    PermissionManager permissionManager = new PermissionManager(p1,plugin);
+                    List<String> usingPermissions = permissionManager.getUsingPermissions("liaotianziti.using");
+                    for(String usingPermission : usingPermissions) {
+                        permissionManager.removePermission(p1, usingPermission);
+                    }
+                }
+                return true;
             case "temp":
                 if(args.length < 2) {
                     sender.sendMessage("§c用法错误");

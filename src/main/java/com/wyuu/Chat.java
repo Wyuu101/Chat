@@ -17,6 +17,7 @@ public final class Chat extends JavaPlugin {
     public static PlaceholderAPIPlugin placeholderAPI;
     public  final Logger logger= getLogger();
     private static ChatListener ChatListener;
+    private static PlayerJoinListener playerJoinListener;
     public static String talkPriority;
     public static String talkPrefix;
     public static Boolean talkDetectCancelOrNot;
@@ -65,8 +66,8 @@ public final class Chat extends JavaPlugin {
             scheduleTask.permissionCheckTask();
             logger.info("过期权限检查任务已启动，周期为6h");
         }
-
-
+        playerJoinListener = new PlayerJoinListener(this);
+        Bukkit.getPluginManager().registerEvents(playerJoinListener, this);
         ChatListener= new ChatListener(this);
         Bukkit.getPluginManager().registerEvent(AsyncPlayerChatEvent.class,ChatListener, UniversalModule.GetEventPriority(talkPriority),  new EventExecutor() {
             @Override
