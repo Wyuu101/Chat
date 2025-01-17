@@ -1,4 +1,4 @@
-package com.wyuu;
+package net.dxzzz.chat;
 
 import org.bukkit.event.EventPriority;
 

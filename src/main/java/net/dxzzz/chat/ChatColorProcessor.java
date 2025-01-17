@@ -1,11 +1,8 @@
-package com.wyuu;
-
-import org.bukkit.plugin.java.JavaPlugin;
+package net.dxzzz.chat;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ChatColorProcessor {

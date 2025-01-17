@@ -1,4 +1,4 @@
-package com.wyuu;
+package net.dxzzz.chat;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;

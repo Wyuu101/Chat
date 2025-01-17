@@ -1,6 +1,6 @@
 name: Chat
 version: '${project.version}'
-main: com.wyuu.Chat
+main: net.dxzzz.chat.Chat
 api-version: '1.13'
 depend: [PlaceholderAPI, LuckPerms]
 authors: [wyuu]

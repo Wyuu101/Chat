@@ -1,4 +1,4 @@
-package com.wyuu;
+package net.dxzzz.chat;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,8 +30,8 @@ public class PlayerJoinListener implements Listener {
                 //plugin.getLogger().info("是OP");
                 PermissionManager permissionManager = new PermissionManager(player, plugin);
                 List<String> havingPermission = permissionManager.getUsingPermissions("liaotianziti.have");
-                plugin.getLogger().info(String.valueOf(havingPermission.size()));
-                plugin.getLogger().info(String.valueOf(CommandFunc.fonts.size()));
+//                plugin.getLogger().info(String.valueOf(havingPermission.size()));
+//                plugin.getLogger().info(String.valueOf(CommandFunc.fonts.size()));
                 if (havingPermission.size() == CommandFunc.fonts.size()) {
                     return;
                 }
